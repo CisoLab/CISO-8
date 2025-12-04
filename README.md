@@ -67,10 +67,10 @@ STOPP
 Run code with the `run` program:
 
 ```
-run program.utn
+run program.ciso
 ```
 
 or with an input file
 ```
-run program.utn [input.txt]
+run program.ciso [input.txt]
 ```
