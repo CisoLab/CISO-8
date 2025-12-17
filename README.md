@@ -1,76 +1,70 @@
-# Assembly Instruction Set
-
-## Registers
-- **ACC** - Accumulator (8-bit, 0-255)
-- **PC** - Program Counter
-
-## Memory
-- 256 bytes (addresses 0-255)
-- All values are 8-bit (0-255)
-
-## Instructions
-
-### Data Movement
-
-| Instruction | Operand | Description |
-|-------------|---------|-------------|
-| `SET n` | Value (0-255) | Load immediate value into ACC |
-| `LAST n` | Address (0-255) | Load value from memory address into ACC |
-| `LAGR n` | Address (0-255) | Store ACC value to memory address |
-
-### Arithmetic
-
-| Instruction | Operand | Description |
-|-------------|---------|-------------|
-| `ADD n` | Address (0-255) | Add memory[n] to ACC (wraps at 255) |
-| `SUB n` | Address (0-255) | Subtract memory[n] from ACC (wraps at 0) |
-
-### Control Flow
-
-| Instruction | Operand | Description |
-|-------------|---------|-------------|
-| `HOPP n` | Line number | Jump unconditionally to line n |
-| `HOPPN n` | Line number | Jump to line n if ACC == 0 |
-| `HOPPIN n` | Line number | Jump to line n if ACC != 0 |
-| `STOPP` | None | Halt program execution |
-
-### Input/Output
-
-| Instruction | Operand | Description |
-|-------------|---------|-------------|
-| `UT n` | Address (0-255) | Output character from memory[n] |
-| `UTREG` | None | Output character from memory[ACC] |
-| `LES n` | Address (0-255) | Read input character from provided file to memory[n] |
-
-## Notes
-
-- All arithmetic wraps around (255 + 1 = 0, 0 - 1 = 255)
-- Line numbers start at 0
-- Comments start with `;` or `#`
-- Empty lines are ignored
-- Instructions are case-insensitive
-
-## Example Program
-
-```assembly
-; Print "Hi"
-SET 72          ; 'H'
-LAGR 0
-SET 105         ; 'i'
-LAGR 1
-UT 0
-UT 1
+REFERANSE
+DATAHÅNDTERING
+SETT n - Sett AKK til verdi n
+HENT n - Hent verdi fra adresse n til AKK
+LAGRE n - Lagre AKK til adresse n
+ARITMETIKK
+PLUSS n - Legg minne[n] til AKK
+MINUS n - Trekk minne[n] fra AKK
+GANG n - Gang AKK med minne[n]
+DELE n - Del AKK på minne[n]
+NULLSTILL - Sett AKK til 0
+KONTROLLFLYT
+HOPP n - Hopp til linje n
+ER_LIK n - Hopp til linje n hvis AKK == 0
+ER_ULIK n - Hopp til linje n hvis AKK != 0
+ER_POS n - Hopp til linje n hvis AKK > 0
+STOPP - Avslutt program
+INN/UT
+LES n - Les tegn til adresse n
+SKRIV n - Skriv tegn fra adresse n
+VIS - Skriv numerisk verdi i AKK
+EKSEMPLER
+Hello World:
+; Skriv "Hei"
+SETT 72      ; 'H'
+LAGRE 0
+SETT 101     ; 'e'
+LAGRE 1
+SETT 105     ; 'i'
+LAGRE 2
+SKRIV 0
+SKRIV 1
+SKRIV 2
 STOPP
-```
-
-## Running
-Run code with the `run` program:
-
-```
-run program.ciso
-```
-
-or with an input file
-```
-run program.ciso [input.txt]
-```
+Nedtelling:
+; Tell ned fra 5
+SETT 5
+LAGRE 0
+SETT 1
+LAGRE 1
+HENT 0      ; Start løkke
+VIS
+MINUS 1
+LAGRE 0
+ER_POS 5    ; Hopp tilbake
+STOPP
+Matematikksjekk:
+; Sjekk om 5 * 3 = 15
+SETT 5
+LAGRE 0
+SETT 3
+LAGRE 1
+SETT 15     ; Fasit
+LAGRE 2
+HENT 0      ; Hent 5
+GANG 1      ; 5 * 3 = 15
+MINUS 2     ; 15 - 15 = 0?
+ER_LIK 12   ; Hvis 0: Riktig!
+HOPP 15     ; Ellers: Feil
+SETT 1      ; Last 1 (Suksess)
+VIS
+STOPP
+NULLSTILL   ; Last 0 (Feil)
+VIS
+STOPP
+TIPS
+AKK register: 0-255 (wrapper rundt)
+Minneadresser: 0-255
+Linjenummer starter på 0
+Kommentarer starter med ; eller #
